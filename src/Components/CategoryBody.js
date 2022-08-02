@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, InputBase,Button } from '@mui/material';
+import { Box, Stack, Typography, InputBase, Button } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import React, { useState } from 'react';
@@ -6,145 +6,130 @@ import SearchIcon from '@mui/icons-material/Search';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import StarIcon from '@mui/icons-material/Star';
 import '../Components/style.css';
-import {  productData ,StoresData} from '../Components/data';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import StoreSlider from './StoreSlider';
+import { useSelector } from 'react-redux';
+import './style.css';
 
-export default function CategoryBody() {
+export default function CategoryBody({ title }) {
 
-    const [value, setValue] = useState(10000);
-    const [search,setSearch] = useState("");
-    const Navigate  = useNavigate();
+  const [value, setValue] = useState(10000);
+  const [search, setSearch] = useState("");
+  const Navigate = useNavigate();
+  const { store } = useSelector((state) => state.Store);
+  const { products } = useSelector((state) => state.Product);
 
-    const settings = {
-        infinite: true,
-        speed: 500,
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        autoplay: false,
-        draggable: true,
-        arrows: true,
-        prevArrow: <ArrowBackIosNewIcon sx={{ backgroundColor: "#234e70", fontSize: "20px", clipPath: "circle(50% at 50% 50%)", color: "white", padding: "2px" }} className="icon" />,
-        nextArrow: <ArrowForwardIosIcon sx={{ backgroundColor: "#234e70", fontSize: "20px", clipPath: "circle(50% at 50% 50%)", color: "white", padding: "2px" }} className="icon" />
-      };
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    autoplay: false,
+    draggable: true,
+    arrows: true,
+    prevArrow: <ArrowBackIosNewIcon sx={{ backgroundColor: "#234e70", fontSize: "20px", clipPath: "circle(50% at 50% 50%)", color: "white", padding: "2px" }} className="icon" />,
+    nextArrow: <ArrowForwardIosIcon sx={{ backgroundColor: "#234e70", fontSize: "20px", clipPath: "circle(50% at 50% 50%)", color: "white", padding: "2px" }} className="icon" />
+  };
 
-      
-    function SingleItem ({curr}){
-        return (
-            <Stack sx={{ gap: "5px", alignItems: "flex-start", backgroundColor: "white", padding: "10px", width: "200px",cursor:"pointer"}} 
-            onClick={()=>{
-              Navigate("/product/"+curr.id);
-            }}
-            >
-            <img src={curr.image} alt={curr.title} style={{ width: "180px", height: "150px", objectFit: "cover" }} />
-            <Typography variant='h3' sx={{ color: "text.main", fontSize: "18px" }}>
-              {curr.title}
-            </Typography>
-            <Typography variant='h4' sx={{ color: "text.main", fontSize: "16px" }}>
-              Rs {curr.price * 100}
-            </Typography>
-            <Stack  sx={{ flexDirection: "row", alignItems: "flex-end" ,justifyContent:"space-between",width:"100%"}}>
-              <Stack sx={{ flexDirection: "row", alignItems: "center" ,gap:"0px"}}>
-                {
-                  Math.round(curr.rating.rate * 2) % 2 === 0 ? <>
-                    {
-                      Array(Math.round(curr.rating.rate * 2) / 2).fill().map((_, indx) => (
-                        <StarIcon sx={{ fontSize: "20px", color: "#FFD700" }} key={indx} />
-                      ))
-                    }
-                  </> : <>
-                    {
-                      Array(Math.round(curr.rating.rate * 2 - 1) / 2).fill().map((_, indx) => (
-                        <StarIcon sx={{ fontSize: "20px", color: "#FFD700" }} key={indx} />
-                      ))
-                    }
-                    <StarHalfIcon sx={{ fontSize: "20px", color: "#FFD700" }} />
-                  </>
-                }
 
-              </Stack>
-              <Typography variant='h5' sx={{ color: "text.main", fontSize: "14px" }}>{curr.rating.rate}</Typography>
-            </Stack>
-            <Button sx={{
-              width: "100%",
-              padding: "2px 0px",
-              color: "white",
-              backgroundColor: "secondary.light", "&:hover": {
-                backgroundColor: "secondary.main"
-              },
-              borderRadius: "0px",
-            }}>
-              Buy
-            </Button>
-            <Button sx={{
-              width: "100%",
-              padding: "2px 0px",
-              color: "secondary.main",
-              backgroundColor: "otherColor.light", "&:hover": {
-                backgroundColor: "otherColor.main"
-              },
-              borderRadius: "0px",
-            }}>
-              Add to Cart
-            </Button>
-          </Stack>
-        )
-    }
-    function SlideItem({ img, title }) {
-        return (
-          <Stack sx={{ gap: "5px", alignItems: "center", backgroundColor: "white", padding: "10px", width: "200px",cursor:"pointer" }} onClick={()=>{
-            Navigate("/category/"+title.toLowerCase().replace(/\s/g, ""));
-          }}>
-            <img src={`${img}}`} alt={title} style={{ width: "180px", height: "150px", objectFit: "cover" }} />
-            <Typography variant='h3' sx={{ color: "text.main", fontSize: "18px" }}>
-              {title}
-            </Typography>
-          </Stack>
-        )
-      }
-    
-
+  function SingleItem({ curr }) {
     return (
-        <>
-        <Box sx={{ margin: "20px 4% 0px 4%", padding: "10px 1%", backgroundColor: "#f2f2eb", display: "flex", flexDirection: "column", gap: "20px" }}>
-            <Stack sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                <Typography variant='h2' sx={{ color: "text.main", fontSize: "22px" }}>Products Avaiable</Typography>
-                <Box sx={{ width: "40%", backgroundColor: "white", padding: "2px 2%", display: "flex", alignItems: "center", gap: "1%" }}>
-                    <InputBase placeholder='Search Product' fullWidth onChange={(e)=>{
-                        setSearch(e.target.value);
-                    }}/>
-                    <SearchIcon sx={{ fontSize: "25px" }} />
-                </Box>
-                <Typography variant='h4' sx={{ color: "text.main", fontSize: "16px" }}>{1000}</Typography>
-                <input type={"range"} min={1000} max={10000} style={{ width: "300px", height: "5px" }} onChange={(e) => {
-                    setValue(e.target.value);
-                }} value={value} />
-                <Typography variant='h4' sx={{ color: "text.main", fontSize: "16px" }}>{value}</Typography>
-            </Stack>
-            <div className='grid-box'>
+      <Stack sx={{ gap: "5px", alignItems: "flex-start", backgroundColor: "white", padding: "10px", width: "90%", cursor: "pointer" }}
+
+      >
+        <img src={curr?.img} alt={curr?.name} className={"category-slider-img"} onClick={() => {
+          Navigate("/product/" + curr?.id);
+        }} />
+        <Typography variant='h3' sx={{ color: "text.main", fontSize: { md: "18px", sm: "16px", xs: "14px" } }}>
+          {curr?.name}
+        </Typography>
+        <Typography variant='h4' sx={{ color: "text.main", fontSize: { md: "16px", sm: "15px", xs: "13px" } }}>
+          Rs {curr.price}
+        </Typography>
+        <Stack sx={{ flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between", width: "90%" }}>
+          <Stack sx={{ flexDirection: "row", alignItems: "center", gap: "0px" }}>
+            {
+              Math.round(curr?.rate * 2) % 2 === 0 ? <>
                 {
-                    productData?.filter((val) => {
-                        if(search === ""){
-                            return val;
-                        }else if(val.title.toLowerCase().includes(search.toLowerCase())){
-                            return val;
-                        }else{
-                          return [];
-                        }
-                    }).filter((val) => {
-                        if(value === 10000){
-                            return val;
-                        }else{
-                          var temp_data = val.price * 100;
-                          return (value >= temp_data);
-                        }
-                      }).map((curr, indx)=>(
-                            <SingleItem curr={curr} key={indx}/>
-                      ))
+                  Array(Math.round(curr?.rate * 2) / 2).fill().map((_, indx) => (
+                    <StarIcon sx={{ fontSize: { md: "20px", xs: "16px" }, color: "#FFD700" }} key={indx} />
+                  ))
                 }
-            </div>
-        </Box>
-        <StoreSlider data={StoresData}/>
-        </>
+              </> : <>
+                {
+                  Array(Math.round(curr?.rate * 2 - 1) / 2).fill().map((_, indx) => (
+                    <StarIcon sx={{ fontSize: { md: "20px", xs: "16px" }, color: "#FFD700" }} key={indx} />
+                  ))
+                }
+                <StarHalfIcon sx={{ fontSize: { md: "20px", xs: "16px" }, color: "#FFD700" }} />
+              </>
+            }
+
+          </Stack>
+          <Typography variant='h5' sx={{ color: "text.main", fontSize: { md: "14px", xs: "12px" } }}>{curr?.rate}</Typography>
+        </Stack>
+        <Button sx={{
+          width: "100%",
+          padding: "2px 0px",
+          color: "secondary.main",
+          backgroundColor: "otherColor.light", "&:hover": {
+            backgroundColor: "otherColor.main"
+          },
+          borderRadius: "0px",
+        }}>
+          Add to Cart
+        </Button>
+      </Stack>
     )
+  }
+
+
+  return (
+    <>
+      <Box sx={{ margin: "20px 4% 0px 4%", padding: "10px 1%", backgroundColor: "#f2f2eb", display: "flex", flexDirection: "column", gap: "20px" }}>
+        <Stack sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+          <Typography variant='h2' sx={{ color: "text.main", fontSize: { md: "25px", sm: "20px", xs: "16px" } }}>Products Avaiable</Typography>
+          <Box sx={{ width: "40%", backgroundColor: "white", padding: "2px 2%", display: { md: "flex", sm: "flex", xs: "none" }, alignItems: "center", gap: "1%" }}>
+            <InputBase placeholder='Search Product' fullWidth onChange={(e) => {
+              setSearch(e.target.value);
+            }} />
+            <SearchIcon sx={{ fontSize: "25px" }} />
+          </Box>
+          <Stack sx={{ flexDirection: "row", alignItems: "center", display: { md: "flex", xs: "none" } }}>
+            <Typography variant='h4' sx={{ color: "text.main", fontSize: "16px", display: { md: "block", xs: "none" } }}>{1000}</Typography>
+            <input type={"range"} min={1000} max={10000} style={{ width: "300px", height: "5px" }} onChange={(e) => {
+              setValue(e.target.value);
+            }} value={value} />
+            <Typography variant='h4' sx={{ color: "text.main", fontSize: "16px", display: { md: "block", xs: "none" } }}>{value}</Typography>
+          </Stack>
+        </Stack>
+        <div className='grid-box'>
+          {
+            products?.filter((val) => {
+              return (val.type.toLowerCase().replace(/\s/g, '').includes(title));
+            })
+              .filter((val) => {
+                if (search === "") {
+                  return val;
+                } else if (val?.name.toLowerCase().includes(search.toLowerCase())) {
+                  return val;
+                } else {
+                  return [];
+                }
+              }).filter((val) => {
+                if (value === 10000) {
+                  return val;
+                } else {
+                  var temp_data = val.price * 100;
+                  return (value >= temp_data);
+                }
+              }).map((curr, indx) => (
+                <SingleItem curr={curr} key={indx} />
+              ))
+          }
+        </div>
+      </Box>
+      <StoreSlider data={store} />
+    </>
+  )
 }

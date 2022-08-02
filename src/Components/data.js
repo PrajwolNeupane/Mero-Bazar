@@ -32,39 +32,60 @@ export const SalesData = [
 export const CategoriesData = [
     {
         img: "https://images.unsplash.com/photo-1468495244123-6c6c332eeece?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Z2FkZ2V0fGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        title: "Electonics & Gadgets"
+        title: "Electonics & Gadgets",
+        quote:"'For a homebody like me, the evolution of gadgets has been a blessing.'",
+        bg:"https://st2.depositphotos.com/1854227/10686/i/600/depositphotos_106862834-stock-photo-desk-with-various-gadgets-and.jpg"
 
     },
     {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaI9qPXv6193p0Ff89m5N6dO7dvj9J-mIBB8d69AJms-10i71u4CvJFasv8VbBC4GNFdg&usqp=CAU",
-        title: "Home Appliances "
+        title: "Home Appliances ",
+        quote:"'The wonderful world of home appliances now makes it possible to cook indoors with charcoal and outdoors with gas.'",
+        bg:"https://techstory.in/wp-content/uploads/2015/02/consumerdurables1.jpg"
 
     },
     {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2Hce7iX6GQIzcVy0TUSJZ0op-T7to5DkvSRa9fqI0xzhWkJJI7Jo0WwnuaEnceQ0N2L0&usqp=CAU",
-        title: "Clothing & Fashion "
+        title: "Clothing & Fashion ",
+        quote:"'Fashion is the armor to survive the reality of everyday life.'",
+        bg:"https://static.fibre2fashion.com/articleresources/images/23/2287/fashion-big_Big.jpg"
 
     },
     {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1PwjRO8ankeFCE1stoXWIydy87TIej9hQ5zTHCvIBgb4WgNQEE59cNLRaw5C5KgWr-p4&usqp=CAU",
-        title: "Instrument "
+        title: "Instrument ",
+        quote:"'I play a musical instrument a little, but only for my own amazement.'",
+        bg:"https://www.thomann.de/blog/wp-content/uploads/2018/08/Quiz_back2skool_header_b3.jpg"
 
     },
     {
         img: "https://www.kazior5.com/wp-content/uploads/2019/05/pet-food.jpg",
-        title: "Pets "
+        title: "Pets ",
+        quote:"'Dog is God spelled backward.'",
+        bg:"https://cdn.ttgtmedia.com/visuals/ComputerWeekly/Hero%20Images/pets-cats-dogs-adobe-hero.jpg"
     },
     {
         img: "https://www.pngall.com/wp-content/uploads/12/Pngitem-PNG-HD-Image.png",
-        title: "Groceries"
+        title: "Groceries",
+        quote:"'I don't go long without eating. I never starve myself: I grab a healthy snack.'",
+        bg:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUTmigjkFjT-rqHI70lOPOWvgLr5Q_gndWbw&usqp=CAU"
     },
     {
         img: "https://static.independent.co.uk/2021/01/27/09/anti-ageing%20creams.jpg?quality=75&width=1200&auto=webp",
-        title: "Health & Beauty"
+        title: "Health & Beauty",
+        quote:"'Where there is health there is beauty.'",
+        bg:"https://www.blogomania.in/wp-content/uploads/2020/05/Health-And-Beauty.jpg"
     },
     {
         img: "https://cdn.shopify.com/s/files/1/0020/4020/1328/collections/SGHWS0666_1_400x.jpg?v=1649933136",
-        title: "Furniture"
+        title: "Furniture",
+        quote:"'Everything is designed. Few things are designed well.'",
+        bg:"https://i.pinimg.com/originals/fa/7a/a6/fa7aa6208f4acd026e3f9f7a86494284.jpg"
+    },
+    {
+        img: "https://www.cityofjacksonmn.com/vertical/Sites/%7BF3D1701B-7B85-48F8-8964-A7A738030D91%7D/uploads/miscellaneous_3.jpg",
+        title: "Others",
+        bg:"https://sworders.blob.core.windows.net/stock/531570-0-medium.jpg?v=63727575300597"
     }
 ];
 
@@ -92,7 +113,8 @@ export const StoresData = [
     {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPxq4K7TtzwKXosbWoqU2QyBbwrFVssIkZCOsgnHyRezDoHPMe6DhTfYMv8zsWco_3DYg&usqp=CAU",
         title: "Bhat Bhateni"
-    }
+    },
+    
 
 
 ]

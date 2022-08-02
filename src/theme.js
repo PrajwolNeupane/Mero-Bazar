@@ -35,13 +35,13 @@ const theme = createTheme({
   },
       typography:{
         fontFamily:font,
-        h1:{fontWeight:700,fontSize:"25px"},
-        h2:{fontWeight:600,fontSize:"23px"},
-        h3:{fontWeight:500,fontSize:"21px"},
-        h4:{fontWeight:400,fontSize:"19px"},
-        h5:{fontWeight:300,fontSize:"18px"},
-        h6:{fontWeight:200,fontSize:"17px"},
-        p:{fontWeight:100,fontSize:"16px"}
+        h1:{fontWeight:700,fontSize:"25px",overflow:"hidden"},
+        h2:{fontWeight:600,fontSize:"23px",overflow:"hidden"},
+        h3:{fontWeight:500,fontSize:"21px",overflow:"hidden"},
+        h4:{fontWeight:400,fontSize:"19px",overflow:"hidden"},
+        h5:{fontWeight:300,fontSize:"18px",overflow:"hidden"},
+        h6:{fontWeight:200,fontSize:"17px",overflow:"hidden"},
+        p:{fontWeight:100,fontSize:"16px",overflow:"hidden"}
       },
         
 });

@@ -2,67 +2,88 @@ import { Button, Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { productData, StoresData } from '../Components/data.js';
+import { doc, setDoc } from "firebase/firestore";
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import StarIcon from '@mui/icons-material/Star';
 import StoreSlider from '../Components/StoreSlider.js';
 import SimilaryProduct from '../Components/SimilaryProduct.js';
+import { collection, getDocs } from 'firebase/firestore';
+import { useDispatch, useSelector } from 'react-redux';
+import { db } from '../Firebase/DBConnection.js';
+import { addCart } from '../State Management/Features/Cart/cartSlice.js';
+import '../Components/style.css'
 
 export default function ProductPage() {
 
     const { id } = useParams();
-    const [data, setData] = useState([]);
-    const [similarData, setSimilarData] = useState([]);
+    const dispatch = useDispatch();
 
-    const [counter, setCounter] = useState();
+    const { products } = useSelector((state) => state.Product);
+    const { store } = useSelector((state) => state.Store);
+    const { user } = useSelector((state) => state.User);
+    const [type, setType] = useState("");
+
 
     const Navigate = useNavigate();
 
 
-    const getData = () => {
-        productData?.filter((val) => {
-            return (val.id === Number(id));
-        }).map((curr, _) => {
-            setData([curr]);
-        })
-    }
-    const getSimilarData = () => {
-        productData?.filter((val) => {
-            return (val.id !== Number(id));
-        }).map((curr, _) => {
-            setSimilarData(old => [...old, curr]);
-        })
-    }
-
     useEffect(() => {
-        setCounter(1);
-        getData();
-        getSimilarData();
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
     }, [id]);
 
-    console.log(data);
+    useEffect(() => {
+        products.filter((val) => {
+            return (val.id.includes(id))
+        }).map((curr, _) => {
+            setType(curr?.type);
+        })
+    }, [id]);
+
+
+    const addToCart = async (item) => {
+        const id = Date.now().toString();
+        const Collection = doc(db, `Cart/${user?.uid}/Carts`, id);
+
+        await setDoc(Collection, {
+            ...item,
+            id: id
+        });
+        try {
+            const Collection = collection(db, `Cart/${user?.uid}/Carts`);
+            const data = await getDocs(Collection);
+            dispatch(addCart(
+                data.docs
+                    .map((doc) => ({
+                        ...doc.data()
+                    }))
+            ));
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <>
             {
-                data.map((curr, indx) => (
-                    <Box sx={{ margin: "20px 4% 0px 4%", padding: "40px 2%", backgroundColor: "#f2f2eb", display: "flex", flexDirection: "row", gap: "20px" }} key={indx}>
-                        <img src={curr.image} style={{ width: "400px" }} alt={curr.title} />
-                        <Stack sx={{ gap: "10px" }}>
-                            <Typography variant='h2' sx={{ color: "text.main", fontSize: "23px" }}>{curr.title}</Typography>
-                            <Stack sx={{ flexDirection: "row", alignItems: "center", gap: "5px" }}>
+                products?.filter((val) => {
+                    return (val.id.includes(id));
+                }).map((curr, indx) => (
+                    <Box sx={{ margin: { md: "20px 4% 0px 4%", sm: "15px 2% 0px 2%", xs: "10px 1% 0px 1%" }, padding: "40px 2%", backgroundColor: "#f2f2eb", display: "flex", flexDirection: { md: "row", sm: "row", xs: "column" }, gap: "20px" }} key={indx}>
+                        <img src={curr?.img} alt={curr?.name} className={"product-img"} />
+                        <Stack sx={{ gap: { md: "10px", sm: "6px", xs: "6px" } }}>
+                            <Typography variant='h2' sx={{ color: "text.main", fontSize: { md: "23px", sm: "20px", xs: "18px" } }}>{curr?.name}</Typography>
+                            <Stack sx={{ flexDirection: "row", alignItems: "center", gap: { md: "5px", sm: "5px", xs: "2px" } }}>
                                 <Stack sx={{ flexDirection: "row", alignItems: "center", gap: "0px" }}>
                                     {
-                                        Math.round(curr.rating.rate * 2) % 2 === 0 ? <>
+                                        Math.round(curr?.rate * 2) % 2 === 0 ? <>
                                             {
-                                                Array(Math.round(curr.rating.rate * 2) / 2).fill().map((_, indx) => (
+                                                Array(Math.round(curr?.rate * 2) / 2).fill().map((_, indx) => (
                                                     <StarIcon sx={{ fontSize: "30px", color: "#FFD700" }} key={indx} />
                                                 ))
                                             }
                                         </> : <>
                                             {
-                                                Array(Math.round(curr.rating.rate * 2 - 1) / 2).fill().map((_, indx) => (
+                                                Array(Math.round(curr?.rate * 2 - 1) / 2).fill().map((_, indx) => (
                                                     <StarIcon sx={{ fontSize: "30px", color: "#FFD700" }} key={indx} />
                                                 ))
                                             }
@@ -71,68 +92,51 @@ export default function ProductPage() {
                                     }
 
                                 </Stack>
-                                <Typography variant='h4' sx={{ color: "text.main", fontSize: "14px" }}>({curr.rating.rate})</Typography>
+                                <Typography variant='h4' sx={{ color: "text.main", fontSize: "14px" }}>({curr?.rate})</Typography>
                             </Stack>
-                            <Typography variant='h4' sx={{ color: "text.main", fontSize: "18px" }}>{curr.description}</Typography>
-                            <Typography variant='h3' sx={{ fontSize: "20px", color: "text.color" }}>Pirce : Rs {curr.price * 1000}</Typography>
-                            <Stack sx={{ flexDirection: "row", alignItems: "center", gap: "20px", justifyContent: "flex-start" }}>
-                                <Button sx={{
-                                    width: "10%",
-                                    padding: "2px 0px",
-                                    color: "white",
-                                    backgroundColor: "secondary.light", "&:hover": {
-                                        backgroundColor: "secondary.main"
-                                    },
-                                    borderRadius: "0px",
-                                }} onClick={() => {
-                                    if (counter > 1) {
-                                        setCounter(counter - 1);
-                                    } else {
-                                        setCounter(1);
+                            <Typography variant='h4' sx={{ color: "text.main", fontSize: { md: "18px", sm: "16px", xs: "16px" } }}>{curr?.description}</Typography>
+                            <Typography variant='h4' sx={{ color: "text.main", fontSize: { md: "18px", sm: "16px", xs: "16px" }, cursor: "pointer" }} onClick={
+                                () => {
+                                    Navigate("/store/" + curr?.storeId);
+                                }
+                            }>Store : {store.filter((val) => {
+                                return (val.id.includes(curr?.storeId))
+                            }).map((curr, _) => (curr.name))}</Typography>
+                            <Typography variant='h4' sx={{ color: "text.main", fontSize: { md: "18px", sm: "16px", xs: "16px" }, cursor: "pointer" }} onClick={
+                                () => {
+                                    Navigate("/category/" + curr?.type.toLowerCase().replace(/\s/g, ""));
+                                }}>Type : {type}</Typography>
+                            <Typography variant='h3' sx={{ fontSize: { md: "20px", sm: "17px", xs: "17px" }, color: "text.color" }}>Pirce : Rs {curr?.price}</Typography>
+                            <Button sx={{
+                                width: "90%",
+                                padding: "2px 0px",
+                                color: "otherColor.main",
+                                backgroundColor: "secondary.light", "&:hover": {
+                                    backgroundColor: "secondary.main"
+                                },
+                                borderRadius: "0px",
+                            }}
+                                onClick={
+                                    () => {
+                                        if (user === null) {
+                                            Navigate("/login");
+                                        } else {
+                                            addToCart(curr);
+                                        }
                                     }
-                                }}>-</Button>
-                                <Typography variant='h3' sx={{ fontSize: "18px", color: "text.main" }}>{counter}</Typography>
-                                <Button sx={{
-                                    width: "10%",
-                                    padding: "2px 0px",
-                                    color: "white",
-                                    backgroundColor: "secondary.light", "&:hover": {
-                                        backgroundColor: "secondary.main"
-                                    },
-                                    borderRadius: "0px",
-                                }} onClick={() => {
-                                    setCounter(counter + 1);
-                                }}>+</Button>
-
-                            </Stack>
-                            <Button sx={{
-                                width: "25%",
-                                padding: "5px 0px",
-                                color: "white",
-                                backgroundColor: "secondary.light", "&:hover": {
-                                    backgroundColor: "secondary.main"
-                                },
-                                borderRadius: "0px",
-                            }}>
-                                Buy
-                            </Button>
-                            <Button sx={{
-                                width: "25%",
-                                padding: "5px 0px",
-                                color: "white",
-                                backgroundColor: "secondary.light", "&:hover": {
-                                    backgroundColor: "secondary.main"
-                                },
-                                borderRadius: "0px",
-                            }}>
-                                Add to cart
+                                }>
+                                Add to Cart
                             </Button>
                         </Stack>
                     </Box>
                 ))
             }
-            <SimilaryProduct data={similarData} />
-            <StoreSlider data={StoresData} />
+            <SimilaryProduct data={products.filter((val) => {
+                return (!val.id.includes(id))
+            }).filter((val) => {
+                return (val.type.includes(type))
+            })} />
+            <StoreSlider data={store} />
         </>
     )
 }

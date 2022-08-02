@@ -78,7 +78,7 @@ export default function SellerLogin() {
 
 
     return (
-        <Box sx={{ width: "30%", margin: "35px auto", padding: "15px 20px", backgroundColor: "#f2f2eb", boxShadow: "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px" }}>
+        <Box sx={{ width: {md:"30%",sm:"50%",xs:"70%"}, margin: {md:"35px auto",sm:"20px auto",xs:"10px auto"}, padding: "15px 20px", backgroundColor: "#f2f2eb", boxShadow: "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px" }}>
             <Stack sx={{ alignItems: "flex-start", gap: "20px" }}>
                 <Typography variant='h2' sx={{ fontSize: "35px", color: "text.main" }}>Become a Seller</Typography>
                 <Stack sx={{ gap: "5px" }}>
@@ -137,7 +137,7 @@ export default function SellerLogin() {
                     }
                 </Stack>
                 <Button sx={{
-                    width: "400px",
+                    width: "100%",
                     color: "white",
                     backgroundColor: "secondary.light", "&:hover": {
                         backgroundColor: "secondary.main"
