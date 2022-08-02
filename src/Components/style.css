@@ -1,0 +1,20 @@
+.slick-prev {
+  position: absolute;
+  left: 0% !important;
+  z-index: 2;
+  color: "red";
+}
+.slick-next {
+  right: 3% !important;
+  z-index: 1;
+}
+
+.slick-prev:hover:after, .slick-prev:focus:after, .slick-next:hover:after, .slick-next:focus:after{
+  opacity: 1;
+}
+.grid-box{
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-row-gap: 50px;
+  grid-column-gap: 10px;
+}
